@@ -6,6 +6,7 @@ const preview = document.getElementById("prev");
 const addButton = document.getElementById("addButton");
 const sendButton = document.getElementById("sendButton");
 const statButton = document.getElementById("statButton");
+const bloqueo = document.getElementById("bloqueo");
 
 var dnaToSend = [];
 var cont = 0;
@@ -74,6 +75,8 @@ function send() {
         var mensaje;
         var salida;
 
+        bloqueo.classList.remove("invisible");
+
         fetch(MUTANT_URL, {
             method: 'POST',
             body: JSON.stringify(registro),
@@ -105,6 +108,9 @@ function send() {
             cont=0;
 
             alert(mensaje);
+
+            bloqueo.classList.add("invisible");
+
         }).then(data => console.log(data))
         .catch(err => {
             err = null;
@@ -113,10 +119,13 @@ function send() {
     } else {
         alert("Primero debe completar todas las lineas de ADN (tantas lineas como cantidad de caracteres por linea)");
     }
+
 }
 
 
 function stats() {
+
+    bloqueo.classList.remove("invisible");
 
     fetch(STATS_URL, {
         method: 'GET',
@@ -128,7 +137,9 @@ function stats() {
             "\n\n    Cantidad de mutantes: " + data.count_mutant_dna + "\n\n          Ratio: " + data.ratio + 
             "\n\n**********************************";
         
-            alert(mensaje);
+        alert(mensaje);
+
+        bloqueo.classList.add("invisible");
     })
     .catch(err => console.error(err));
 
